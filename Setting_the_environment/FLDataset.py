@@ -12,8 +12,10 @@ def mnistIID(dataset, num_users):
         indeces = list(set(indeces) - users_dict[i])
     return users_dict
 
-def mnistNonIID(dataset, num_users):
+def mnistNonIID(dataset, num_users, test=False):
     classes, images = 200, 300
+    if test:
+        classes, images = 20, 500
     classes_indx = [i for i in range(classes)]
     users_dict = {i: np.array([]) for i in range(num_users)}
     indeces = np.arange(classes*images)
@@ -31,8 +33,10 @@ def mnistNonIID(dataset, num_users):
             users_dict[i] = np.concatenate((users_dict[i], indeces[t*images:(t+1)*images]), axis=0)
     return users_dict
 
-def mnistNonIIDUnequal(dataset, num_users):
+def mnistNonIIDUnequal(dataset, num_users, test=False):
     classes, images = 1200, 50
+    if test:
+        classes, images = 200, 50
     classes_indx = [i for i in range(classes)]
     users_dict = {i: np.array([]) for i in range(num_users)}
     indeces = np.arange(classes*images)
@@ -92,18 +96,18 @@ def mnistNonIIDUnequal(dataset, num_users):
 
 def load_dataset(num_users, iidtype):
     tranform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
-    train_dataset = datasets.MNIST('./data', train=True, download=True, transform=tranform)
-    test_dataset = datasets.MNIST('./data', train=False, download=True, transform=tranform)
+    train_dataset = datasets.MNIST('./', train=True, download=True, transform=tranform)
+    test_dataset = datasets.MNIST('./', train=False, download=True, transform=tranform)
     train_group, test_group = None, None
     if iidtype == 'iid':
         train_group = mnistIID(train_dataset, num_users)
         test_group = mnistIID(test_dataset, num_users)
     elif iidtype == 'noniid':
         train_group = mnistNonIID(train_dataset, num_users)
-        test_group = mnistNonIID(test_dataset, num_users)
+        test_group = mnistNonIID(test_dataset, num_users, True)
     else:
         train_group = mnistNonIIDUnequal(train_dataset, num_users)
-        test_group = mnistNonIIDUnequal(test_dataset, num_users)
+        test_group = mnistNonIIDUnequal(test_dataset, num_users, True)
     return train_dataset, test_dataset, train_group, test_group
 
 class FedDataset(Dataset):
