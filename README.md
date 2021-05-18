@@ -30,12 +30,11 @@ You do not need any prerequisites!
 PySyft version used in the course is `0.2.9` </br>
 PySyft version used on the cloud is `0.3.0` </br>
 You do not have to worry about torch version or any other library. All of these libraries are attached to PySyft and will be downloaded using a single command `pip install syft==<version>`</br>
-When you are working on Differential Privacy and you want to use `Opacus` then you can install it using `pip install opacus`. However, `Opacus` is not compatible with torch `0.4` that comes with `PySyft`. To fix this, you need Torch `1.6` or above. To update your torch use `pip install torch==1.6`</br>
+When you are working on Differential Privacy and you want to use `Opacus` then you can install it using `pip install opacus`. However, if you install `PySyft=0.2.9`, it come with `Torch=0.4` by default. But some functionalities are not supported by `PyTorch=0.4` anymore. Therefore, after install `PySyft=0.2.9` just upgrade your Torch to 1.6 by running: `pip install torch==1.6`.  </br></br>
 **Recommended**
-Use three different anaconda envs:
-* `Syft 0.2.9` with the default torch that comes with it. Use this env for ALL the local experiments.
-* `Syft 0.2.9` with `torch 1.6` When you are on chapter 5 and you are running experiements using Opacus.
-* `Syft 0.3.0` for all the cloud experiements.
+Use two different anaconda envs:
+* `Syft 0.2.9` To run all the local experiments you need PySyft=0.2.9. After that update your torch to 1.6.
+* `Syft 0.3.0` for all the cloud experiements. You do not need to update Torch.
 
 
 </br></br>
